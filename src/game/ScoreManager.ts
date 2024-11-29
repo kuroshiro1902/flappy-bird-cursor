@@ -1,5 +1,5 @@
 import { GameConfig } from "@/config/GameConfig";
-import { SkillManager } from "./SkillManager";
+import { SkillManager } from "./Skill/SkillManager";
 
 export class ScoreManager {
   private score: number = 0;

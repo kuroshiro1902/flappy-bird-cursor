@@ -1,6 +1,6 @@
-import { GameConfig } from '../config/GameConfig';
-import { ScoreManager } from './ScoreManager';
-import { Bird } from './Bird';
+import { GameConfig } from '../../config/GameConfig';
+import { ScoreManager } from '../ScoreManager';
+import { Bird } from '../Bird/Bird';
 
 export class PipeManager {
   private scene: Phaser.Scene;

@@ -1,4 +1,4 @@
-import { GameConfig } from '../config/GameConfig';
+import { GameConfig } from '../../config/GameConfig';
 
 export class Bird {
   public sprite: Phaser.Physics.Arcade.Sprite;

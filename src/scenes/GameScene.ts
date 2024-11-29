@@ -1,8 +1,8 @@
 import { GameConfig } from '../config/GameConfig';
-import { Bird } from '../game/Bird';
-import { PipeManager } from '../game/PipeManager';
+import { Bird } from '../game/Bird/Bird';
+import { PipeManager } from '../game/Pipe/PipeManager';
 import { ScoreManager } from '../game/ScoreManager';
-import { SkillManager } from '../game/SkillManager';
+import { SkillManager } from '../game/Skill/SkillManager';
 
 export class GameScene extends Phaser.Scene {
   private bird!: Bird;
@@ -49,7 +49,11 @@ export class GameScene extends Phaser.Scene {
   update() {
     if (this.gameOver) return;
 
-    this.bird.update(this.skillManager.isDashActive());
+    // Cập nhật skill manager
+    this.skillManager.update();
+    
+    // Kiểm tra dash skill
+    this.bird.update(this.skillManager.isSkillActive('Dash'));
 
     if (this.bird.sprite.y < 0 || this.bird.sprite.y > GameConfig.HEIGHT) {
       this.gameOverHandler();
@@ -67,7 +71,7 @@ export class GameScene extends Phaser.Scene {
       this.gameOver = false;
       return;
     }
-    this.bird.jump(this.skillManager.isDashActive());
+    this.bird.jump(this.skillManager.isSkillActive('Dash'));
   }
 
   private gameOverHandler() {
