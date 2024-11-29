@@ -18,10 +18,51 @@ export class SkillUIManager {
     statusText: Phaser.GameObjects.Text;
     keyText: Phaser.GameObjects.Text;
   }>;
+  private rageBar!: Phaser.GameObjects.Rectangle;
+  private rageBarBg!: Phaser.GameObjects.Rectangle;
+  private rageText!: Phaser.GameObjects.Text;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
     this.skillUIs = new Map();
+    this.createRageBar();
+  }
+
+  private createRageBar() {
+    // Background cho rage bar
+    this.rageBarBg = this.scene.add.rectangle(
+      GameConfig.WIDTH - 120,
+      10,
+      100,
+      10,
+      0x666666
+    );
+
+    // Rage bar
+    this.rageBar = this.scene.add.rectangle(
+      GameConfig.WIDTH - 120,
+      10,
+      100,
+      10,
+      0x0000ff
+    );
+
+    // Rage text
+    this.rageText = this.scene.add.text(
+      GameConfig.WIDTH - 170,
+      5,
+      'Rage: 0/15',
+      {
+        fontSize: '14px',
+        color: '#ffffff'
+      }
+    );
+  }
+
+  public updateRageBar(currentRage: number, maxRage: number) {
+    const width = (currentRage / maxRage) * 100;
+    this.rageBar.width = width;
+    this.rageText.setText(`Rage: ${currentRage}/${maxRage}`);
   }
 
   public addSkillUI(skill: ISkill) {

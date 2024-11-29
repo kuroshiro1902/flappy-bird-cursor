@@ -10,7 +10,8 @@ export class SkillManager {
   private scene: Phaser.Scene;
   private bird: Bird;
   private skills: Map<string, ISkill>;
-  private ragePoints: number = 0;
+  private currentRange: number = 0;
+  private maxRange: number = 15; // Nộ tối đa
   private uiManager: SkillUIManager;
   private skillListContainer?: Phaser.GameObjects.Container;
 
@@ -43,22 +44,28 @@ export class SkillManager {
   }
 
   private tryActivateSkill(skill: ISkill) {
-    if (skill.isReady && !skill.isActive) {
+    if (!skill.isActive && this.currentRange >= skill.requiredPoints) {
       skill.activate(this.bird);
-      skill.isReady = false;
-      this.uiManager.updateSkillUI(skill);
+      // Trừ nộ khi dùng skill
+      this.currentRange -= skill.requiredPoints;
+      this.uiManager.updateRageBar(this.currentRange, this.maxRange);
+      this.updateSkillsStatus();
     }
   }
 
-  public addRagePoint() {
-    this.ragePoints++;
-    
+  public addManaPoint() {
+    if (this.currentRange < this.maxRange) {
+      this.currentRange++;
+      this.uiManager.updateRageBar(this.currentRange, this.maxRange);
+      this.updateSkillsStatus();
+    }
+  }
+
+  private updateSkillsStatus() {
     this.skills.forEach(skill => {
-      if (!skill.isReady && this.ragePoints >= skill.requiredPoints) {
-        skill.isReady = true;
-        this.ragePoints = 0;
-        this.uiManager.updateSkillUI(skill);
-      }
+      // Skill sẵn sàng nếu có đủ nộ
+      skill.isReady = this.currentRange >= skill.requiredPoints;
+      this.uiManager.updateSkillUI(skill);
     });
   }
 

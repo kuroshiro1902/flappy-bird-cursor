@@ -22,7 +22,7 @@ export class ScoreManager {
   public addScore() {
     this.score += 1;
     this.scoreText.setText(`Score: ${this.score}`);
-    this.skillManager.addRagePoint();
+    this.skillManager.addManaPoint();
   }
 
   public getScore() {
