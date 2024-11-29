@@ -5,6 +5,7 @@ import { SkillUIManager } from "./SkillUIManager";
 import { GhostSkill } from "./Ghost.skill";
 import { GameConfig } from "@/config/GameConfig";
 import { BounceReduceSkill } from "./BounceReduce.skill";
+import { BaseSkill } from "./BaseSkill";
 
 export class SkillManager {
   private scene: Phaser.Scene;
@@ -46,7 +47,13 @@ export class SkillManager {
   private tryActivateSkill(skill: ISkill) {
     if (!skill.isActive && this.currentRange >= skill.requiredPoints) {
       skill.activate(this.bird);
-      // Trừ nộ khi dùng skill
+      
+      if (skill instanceof BaseSkill) {
+        (skill as BaseSkill).startDurationTimer((remainingTime) => {
+          this.uiManager.updateDurationBar(skill, remainingTime);
+        });
+      }
+
       this.currentRange -= skill.requiredPoints;
       this.uiManager.updateRageBar(this.currentRange, this.maxRange);
       this.updateSkillsStatus();

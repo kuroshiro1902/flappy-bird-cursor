@@ -17,6 +17,8 @@ export class SkillUIManager {
     container: Phaser.GameObjects.Container;
     statusText: Phaser.GameObjects.Text;
     keyText: Phaser.GameObjects.Text;
+    durationBar?: Phaser.GameObjects.Rectangle;
+    durationBarBg?: Phaser.GameObjects.Rectangle;
   }>;
   private rageBar!: Phaser.GameObjects.Rectangle;
   private rageBarBg!: Phaser.GameObjects.Rectangle;
@@ -69,7 +71,6 @@ export class SkillUIManager {
     const index = this.skillUIs.size;
     const yOffset = 20 + index * 40;
 
-    // Container cho từng skill
     const container = this.scene.add.container(GameConfig.WIDTH - 120, yOffset);
     
     // Key binding và tên skill
@@ -84,12 +85,21 @@ export class SkillUIManager {
       color: '#ff0000'
     });
 
-    container.add([keyText, statusText]);
+    // Duration bar background
+    const durationBarBg = this.scene.add.rectangle(0, 35, 100, 5, 0x666666);
+    
+    // Duration bar
+    const durationBar = this.scene.add.rectangle(0, 35, 100, 5, 0x00ff00);
+    durationBar.visible = false;
+
+    container.add([keyText, statusText, durationBarBg, durationBar]);
 
     this.skillUIs.set(skill.name, {
       container,
       statusText,
-      keyText
+      keyText,
+      durationBar,
+      durationBarBg
     });
   }
 
@@ -98,6 +108,19 @@ export class SkillUIManager {
     if (ui) {
       ui.statusText.setText(skill.isReady ? 'Ready' : 'Not Ready');
       ui.statusText.setColor(skill.isReady ? '#00ff00' : '#ff0000');
+    }
+  }
+
+  public updateDurationBar(skill: ISkill, remainingTime: number) {
+    const ui = this.skillUIs.get(skill.name);
+    if (ui?.durationBar) {
+      ui.durationBar.visible = true;
+      const width = (remainingTime / skill.duration) * 100;
+      ui.durationBar.width = width;
+      
+      if (width <= 0) {
+        ui.durationBar.visible = false;
+      }
     }
   }
 }
