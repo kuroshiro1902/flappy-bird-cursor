@@ -1,13 +1,13 @@
 import { BaseSkill } from "./BaseSkill";
 import { Bird } from "../Bird/Bird";
 
-export class GhostSkill extends BaseSkill {
+export class UndeadSkill extends BaseSkill {
   constructor(scene: Phaser.Scene) {
     super(scene, {
-      name: 'Ghost',
+      name: 'Undead',
       key: 'Q',
       requiredPoints: 10,
-      duration: 1500
+      duration: 4000
     });
   }
 

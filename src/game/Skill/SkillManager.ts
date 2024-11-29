@@ -2,7 +2,7 @@ import { Bird } from "../Bird/Bird";
 import { ISkill } from "./models/ISkill";
 import { DashSkill } from "./Dash.skill";
 import { SkillUIManager } from "./SkillUIManager";
-import { GhostSkill } from "./Ghost.skill";
+import { UndeadSkill } from "./Undead.skill";
 import { GameConfig } from "@/config/GameConfig";
 import { BounceReduceSkill } from "./BounceReduce.skill";
 import { BaseSkill } from "./BaseSkill";
@@ -27,9 +27,9 @@ export class SkillManager {
 
   private registerSkills() {
     // Đăng ký các skill
-    this.addSkill(new DashSkill(this.scene));
+    this.addSkill(new UndeadSkill(this.scene));
     this.addSkill(new BounceReduceSkill(this.scene));
-    this.addSkill(new GhostSkill(this.scene));
+    this.addSkill(new DashSkill(this.scene));
   }
 
   private addSkill(skill: ISkill) {
