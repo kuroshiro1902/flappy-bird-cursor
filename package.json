@@ -1,13 +1,9 @@
 {
   "name": "gamewithcursor",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "vite",
     "build": "tsc && vite build",
-    "format": "prettier --write \"src/**/*.ts\"",
     "preview": "vite preview"
   },
   "keywords": [],
@@ -16,9 +12,6 @@
   "description": "",
   "devDependencies": {
     "@types/node": "^22.10.1",
-    "prettier": "^3.4.1",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.2",
     "vite": "^6.0.1"
   },
