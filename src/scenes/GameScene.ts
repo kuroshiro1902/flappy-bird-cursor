@@ -10,6 +10,8 @@ export class GameScene extends Phaser.Scene {
   private scoreManager!: ScoreManager;
   private skillManager!: SkillManager;
   private gameOver: boolean = false;
+  private isPaused: boolean = false;
+  private pauseOverlay!: Phaser.GameObjects.Container;
 
   constructor() {
     super({ key: 'GameScene' });
@@ -44,9 +46,76 @@ export class GameScene extends Phaser.Scene {
 
     // Setup input
     this.setupInput();
+
+    // Setup pause input
+    this.input.keyboard?.addKey('ESC').on('down', () => {
+      this.togglePause();
+    });
+
+    // Tạo pause overlay (ẩn ban đầu)
+    this.createPauseOverlay();
+  }
+
+  private createPauseOverlay() {
+    this.pauseOverlay = this.add.container(0, 0);
+    
+    // Background mờ
+    const bg = this.add.rectangle(
+      0, 0, 
+      GameConfig.WIDTH, 
+      GameConfig.HEIGHT, 
+      0x000000, 0.7
+    );
+    bg.setOrigin(0, 0);
+
+    // Title
+    const title = this.add.text(
+      GameConfig.WIDTH / 2,
+      50,
+      'PAUSED',
+      {
+        fontSize: '48px',
+        color: '#ffffff',
+        fontStyle: 'bold'
+      }
+    ).setOrigin(0.5);
+
+    // Instruction
+    const instruction = this.add.text(
+      GameConfig.WIDTH / 2,
+      100,
+      'Press ESC to resume',
+      {
+        fontSize: '24px',
+        color: '#ffffff'
+      }
+    ).setOrigin(0.5);
+
+    this.pauseOverlay.add([bg, title, instruction]);
+    this.pauseOverlay.setVisible(false);
+  }
+
+  private togglePause() {
+    this.isPaused = !this.isPaused;
+    
+    if (this.isPaused) {
+      // Pause game
+      this.physics.pause();
+      this.pauseOverlay.setVisible(true);
+      // Hiển thị skill list trong pause menu
+      this.skillManager.showSkillList(this.pauseOverlay);
+    } else {
+      // Resume game
+      this.physics.resume();
+      this.pauseOverlay.setVisible(false);
+      // Ẩn skill list
+      this.skillManager.hideSkillList();
+    }
   }
 
   update() {
+    if (this.isPaused) return;
+
     if (this.gameOver) return;
 
     // Cập nhật skill manager

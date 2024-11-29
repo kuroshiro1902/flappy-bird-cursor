@@ -1,8 +1,10 @@
-import { GameConfig } from "@/config/GameConfig";
 import { Bird } from "../Bird/Bird";
 import { ISkill } from "./models/ISkill";
-import { DashSkill } from "./DashSkill.skill";
+import { DashSkill } from "./Dash.skill";
 import { SkillUIManager } from "./SkillUIManager";
+import { GravityReverseSkill } from "./GravityReverse.skill";
+import { GhostSkill } from "./Ghost.skill";
+import { GameConfig } from "@/config/GameConfig";
 
 export class SkillManager {
   private scene: Phaser.Scene;
@@ -10,6 +12,7 @@ export class SkillManager {
   private skills: Map<string, ISkill>;
   private ragePoints: number = 0;
   private uiManager: SkillUIManager;
+  private skillListContainer?: Phaser.GameObjects.Container;
 
   constructor(scene: Phaser.Scene, bird: Bird) {
     this.scene = scene;
@@ -23,9 +26,8 @@ export class SkillManager {
   private registerSkills() {
     // Đăng ký các skill
     this.addSkill(new DashSkill(this.scene));
-    // Thêm skill mới ở đây
-    // this.addSkill(new TimeSlowSkill(this.scene));
-    // this.addSkill(new ShieldSkill(this.scene));
+    this.addSkill(new GravityReverseSkill(this.scene));
+    this.addSkill(new GhostSkill(this.scene));
   }
 
   private addSkill(skill: ISkill) {
@@ -71,5 +73,52 @@ export class SkillManager {
   public isSkillActive(skillName: string): boolean {
     const skill = this.skills.get(skillName);
     return skill ? skill.isActive : false;
+  }
+
+  public showSkillList(parentContainer: Phaser.GameObjects.Container) {
+    // Tạo container cho skill list
+    this.skillListContainer = this.scene.add.container(
+      GameConfig.WIDTH / 2 - 200,
+      150
+    );
+
+    // Title cho skill list
+    const title = this.scene.add.text(
+      0, 0,
+      'AVAILABLE SKILLS',
+      {
+        fontSize: '32px',
+        color: '#ffffff',
+        fontStyle: 'bold'
+      }
+    );
+
+    this.skillListContainer.add(title);
+
+    // Hiển thị từng skill
+    let yOffset = 50;
+    this.skills.forEach((skill, name) => {
+      const skillInfo = this.scene.add.text(
+        0, yOffset,
+        `[${skill.key}] ${name}\n` +
+        `Required Points: ${skill.requiredPoints}\n` +
+        `Duration: ${skill.duration}ms\n`,
+        {
+          fontSize: '24px',
+          color: '#ffffff',
+          lineSpacing: 5
+        }
+      );
+      
+      this.skillListContainer?.add(skillInfo);
+      yOffset += 100;
+    });
+
+    parentContainer.add(this.skillListContainer);
+  }
+
+  public hideSkillList() {
+    this.skillListContainer?.destroy();
+    this.skillListContainer = undefined;
   }
 }

@@ -36,4 +36,21 @@ export const GameConfig = {
     COLOR: '#fff',
     TEXT: 'Game Over\nClick to restart'
   },
+  PAUSE: {
+    OVERLAY_ALPHA: 0.7,
+    TITLE: {
+      FONT_SIZE: '48px',
+      COLOR: '#ffffff'
+    },
+    INSTRUCTION: {
+      FONT_SIZE: '24px',
+      COLOR: '#ffffff'
+    },
+    SKILL_LIST: {
+      TITLE_SIZE: '32px',
+      SKILL_SIZE: '24px',
+      COLOR: '#ffffff',
+      LINE_SPACING: 5
+    }
+  }
 };

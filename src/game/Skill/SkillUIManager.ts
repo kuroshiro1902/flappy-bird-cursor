@@ -25,19 +25,25 @@ export class SkillUIManager {
   }
 
   public addSkillUI(skill: ISkill) {
-    const container = this.scene.add.container(GameConfig.WIDTH - 120, 20);
+    const index = this.skillUIs.size;
+    const yOffset = 20 + index * 40;
+
+    // Container cho từng skill
+    const container = this.scene.add.container(GameConfig.WIDTH - 120, yOffset);
     
-    const statusText = this.scene.add.text(0, 0, 'Not Ready', {
+    // Key binding và tên skill
+    const keyText = this.scene.add.text(0, 0, `[${skill.key}] ${skill.name}`, {
       fontSize: '16px',
       color: '#fff'
     });
 
-    const keyText = this.scene.add.text(0, 20, `[${skill.key}] ${skill.name}`, {
+    // Trạng thái skill
+    const statusText = this.scene.add.text(0, 20, 'Not Ready', {
       fontSize: '14px',
-      color: '#fff'
+      color: '#ff0000'
     });
 
-    container.add([statusText, keyText]);
+    container.add([keyText, statusText]);
 
     this.skillUIs.set(skill.name, {
       container,
@@ -53,4 +59,4 @@ export class SkillUIManager {
       ui.statusText.setColor(skill.isReady ? '#00ff00' : '#ff0000');
     }
   }
-} 
+}
