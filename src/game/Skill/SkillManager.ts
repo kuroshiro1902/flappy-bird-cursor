@@ -2,9 +2,9 @@ import { Bird } from "../Bird/Bird";
 import { ISkill } from "./models/ISkill";
 import { DashSkill } from "./Dash.skill";
 import { SkillUIManager } from "./SkillUIManager";
-import { GravityReverseSkill } from "./GravityReverse.skill";
 import { GhostSkill } from "./Ghost.skill";
 import { GameConfig } from "@/config/GameConfig";
+import { BounceReduceSkill } from "./BounceReduce.skill";
 
 export class SkillManager {
   private scene: Phaser.Scene;
@@ -27,7 +27,7 @@ export class SkillManager {
   private registerSkills() {
     // Đăng ký các skill
     this.addSkill(new DashSkill(this.scene));
-    this.addSkill(new GravityReverseSkill(this.scene));
+    this.addSkill(new BounceReduceSkill(this.scene));
     this.addSkill(new GhostSkill(this.scene));
   }
 

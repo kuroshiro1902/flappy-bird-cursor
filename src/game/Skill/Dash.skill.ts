@@ -8,7 +8,7 @@ export class DashSkill extends BaseSkill {
   constructor(scene: Phaser.Scene) {
     super(scene, {
       name: 'Dash',
-      key: 'D',
+      key: 'E',
       requiredPoints: 5,
       duration: 275
     });

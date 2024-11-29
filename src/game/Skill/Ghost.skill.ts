@@ -5,7 +5,7 @@ export class GhostSkill extends BaseSkill {
   constructor(scene: Phaser.Scene) {
     super(scene, {
       name: 'Ghost',
-      key: 'G',
+      key: 'Q',
       requiredPoints: 10,
       duration: 1500
     });

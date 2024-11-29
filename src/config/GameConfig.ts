@@ -4,7 +4,7 @@ export const GameConfig = {
   
   BIRD: {
     GRAVITY: 800,
-    JUMP_SPEED: -280,
+    JUMP_SPEED: -290,
     X_POSITION: 150,
     SIZE: 34,
     ROTATION_FACTOR: 0.1,   // Hệ số xoay của bird
